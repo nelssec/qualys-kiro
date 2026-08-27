@@ -1,7 +1,7 @@
 ---
 name: "Qualys QScanner"
-description: "Scan code repositories and container images for vulnerabilities, exposed secrets, and generate SBOMs using Qualys QScanner"
-keywords: ["qualys", "qscanner", "vulnerability", "vulnerability scan", "security scan", "container scan", "image scan", "code scan", "sca", "sbom", "secrets", "cve"]
+description: "Scan code repositories and container images for vulnerabilities, exposed secrets, and SBOMs with Qualys QScanner — including AI Compliance and Guardrails for AI/ML packages and models (Qualys TotalAI)"
+keywords: ["qualys", "qscanner", "vulnerability", "vulnerability scan", "security scan", "container scan", "image scan", "code scan", "sca", "sbom", "secrets", "cve", "ai compliance", "ai guardrails", "ai security", "totalai", "llm security"]
 ---
 
 # Qualys QScanner Power
@@ -33,6 +33,7 @@ If `QUALYS_ACCESS_TOKEN` is not set, run the `setup` skill first and ask the use
 - "Check for secrets in my code" → `code-scan` with `SCAN_SECRETS=true`
 - "Generate an SBOM" → `code-scan` with `GENERATE_SBOM=true` (`SBOM_FORMAT=spdx|cyclonedx|both`)
 - "Does this pass our security policy?" → scan with `USE_POLICY_EVALUATION=true` (optionally `POLICY_TAGS=...`)
+- **AI Compliance and Guardrails** (Qualys TotalAI): "Is my AI stack compliant?" / "check my AI dependencies" → `code-scan` or `container-scan` with `GENERATE_SBOM=true` to inventory AI/ML packages, frameworks, and embedded models, plus `USE_POLICY_EVALUATION=true` with your AI guardrail policy tags (e.g. `POLICY_TAGS=ai-compliance`) to gate builds. Uploaded inventory feeds Qualys TotalAI for AI workload risk and compliance reporting.
 
 ## Ground rules
 
