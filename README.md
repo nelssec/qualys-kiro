@@ -39,6 +39,24 @@ Just ask Kiro:
 
 Scan reports land in `.qualys/scans/<timestamp>/` (SARIF + JSON + optional SBOMs). Default gate matches the GitHub Actions: 0 critical, 0 high, unlimited medium/low.
 
+## Sandboxed agents and CI/CD
+
+The power runs fully headless, so it works when Kiro itself runs as a sandboxed agent in a pipeline (e.g. a code review agent in an AWS Lambda MicroVM). Everything is env-var driven, and the scan scripts return deterministic exit codes your pipeline can gate on: `0` = passed, `1` = thresholds/policy failed, `2` = misconfigured.
+
+For read-only sandboxes like Lambda MicroVMs (no Docker daemon, only `/tmp` writable):
+
+1. **Bake qscanner into the sandbox image** — the scripts use any `qscanner` found on `PATH` before trying to download or fall back to Docker:
+
+   ```dockerfile
+   ADD https://github.com/nelssec/qualys-code-scan/releases/latest/download/qscanner.gz /tmp/
+   RUN gunzip -c /tmp/qscanner.gz > /usr/local/bin/qscanner && chmod 755 /usr/local/bin/qscanner
+   ```
+
+2. Inject `QUALYS_ACCESS_TOKEN` from your secret store (e.g. AWS Secrets Manager, alongside the agent's own API key) and set `OUTPUT_DIR` somewhere writable (e.g. `/tmp/qualys-out`).
+3. Allow egress to your Qualys POD (e.g. a VPC egress connector), or set `OFFLINE_SCAN=true` for local-only scanning.
+
+This pairs naturally with an autonomous PR-review agent: the agent reviews the code, runs `code-scan` on the checkout (and `container-scan` on the built image), and blocks or approves the PR based on the gate — the same flow as the Qualys GitHub Actions, but agent-driven and with remediation suggestions included in the review.
+
 ## Layout
 
 ```

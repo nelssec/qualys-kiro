@@ -33,6 +33,7 @@ If `QUALYS_ACCESS_TOKEN` is not set, run the `setup` skill first and ask the use
 - "Check for secrets in my code" → `code-scan` with `SCAN_SECRETS=true`
 - "Generate an SBOM" → `code-scan` with `GENERATE_SBOM=true` (`SBOM_FORMAT=spdx|cyclonedx|both`)
 - "Does this pass our security policy?" → scan with `USE_POLICY_EVALUATION=true` (optionally `POLICY_TAGS=...`)
+- **Sandboxed / CI-CD agent**: when running headless in a pipeline sandbox (e.g. a Lambda MicroVM), don't run `setup` downloads — use the `qscanner` baked into the image on `PATH`, set `OUTPUT_DIR` to a writable location like `/tmp/qualys-out`, and gate on the scan script's exit code (`0` pass, `1` fail, `2` misconfigured).
 - **AI Compliance and Guardrails** (Qualys TotalAI): "Is my AI stack compliant?" / "check my AI dependencies" → `code-scan` or `container-scan` with `GENERATE_SBOM=true` to inventory AI/ML packages, frameworks, and embedded models, plus `USE_POLICY_EVALUATION=true` with your AI guardrail policy tags (e.g. `POLICY_TAGS=ai-compliance`) to gate builds. Uploaded inventory feeds Qualys TotalAI for AI workload risk and compliance reporting.
 
 ## Ground rules
