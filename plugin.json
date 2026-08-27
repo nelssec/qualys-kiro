@@ -1,0 +1,27 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "qualys-qscanner",
+  "version": "1.0.0",
+  "description": "Scan code repositories and container images for vulnerabilities, exposed secrets, and generate SBOMs using Qualys QScanner",
+  "author": {
+    "name": "Qualys"
+  },
+  "homepage": "https://www.qualys.com/apps/container-security/",
+  "license": "MIT",
+  "keywords": [
+    "qualys",
+    "qscanner",
+    "vulnerability",
+    "vulnerability scan",
+    "security scan",
+    "container scan",
+    "image scan",
+    "code scan",
+    "sca",
+    "software composition analysis",
+    "sbom",
+    "secrets",
+    "secret detection",
+    "cve"
+  ]
+}
